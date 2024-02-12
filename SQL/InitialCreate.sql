@@ -10,7 +10,7 @@ CREATE TABLE "clients" (
 
 CREATE TABLE "programs" (
   "program_id" serial PRIMARY KEY NOT NULL,
-  "program_name" integer NOT NULL,
+  "program_name" varchar(255) NOT NULL,
   "difficulty_id" integer NOT NULL,
   "program_description" varchar(255)
 );
