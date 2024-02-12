@@ -1,0 +1,69 @@
+
+Table clients {
+	client_id int pk
+	first_name varchar
+	last_name varchar
+	email varchar
+	contact_number varchar
+	date_of_birth date
+	joined_date date
+}
+
+Table programs {
+	program_id integer pk 
+	program_name integer
+	difficulty_id integer
+	program_description varchar
+}
+
+Table exercises {
+	exercise_id integer pk 
+	exercise_name varchar
+	exercise_type varchar
+	exercise_description varchar
+}
+
+Table client_program {
+	id integer pk
+  program_id integer 
+	client_id integer
+	start_date date
+	end_date date
+}
+
+Table program_exercise {
+	id integer pk 
+	exercise_id integer 
+	program_id integer 
+	set_count integer
+	rep_count integer
+	rest_period_seconds integer
+}
+
+Table billing {
+	billing_id integer pk 
+	client_id integer 
+	amount money
+	payment_due_date date
+}
+
+Table payments {
+	payment_id integer pk 
+	amount integer
+	billing_id integer 
+	payment_date date
+}
+
+Table difficulty  {
+	difficulty_id integer pk 
+	difficulty_description varchar
+	years_experience integer
+}
+
+Ref: clients.client_id < client_program.client_id
+Ref: programs.program_id < client_program.program_id
+Ref: programs.program_id < program_exercise.program_id
+Ref: exercises.exercise_id < program_exercise.exercise_id
+Ref: clients.client_id < billing.client_id
+Ref: payments.billing_id > billing.billing_id
+Ref: difficulty.difficulty_id - programs.difficulty_id
