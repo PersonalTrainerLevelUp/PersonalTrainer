@@ -30,7 +30,7 @@ jobs:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.working_dir }}
-          tg_command: 'validate'
+          tg_command: 'run-all validate'
       - name: Validate Status
         if: steps.validate.outcome == 'failure'
         run: exit 1
@@ -41,7 +41,7 @@ jobs:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.working_dir }}
-          tg_command: 'plan'
+          tg_command: 'run-all plan'
       - name: Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
@@ -52,4 +52,4 @@ jobs:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.working_dir }}
-          tg_command: 'apply'
+          tg_command: 'run-all apply'
