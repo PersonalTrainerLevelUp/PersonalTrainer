@@ -1,7 +1,7 @@
 locals {
-  aws_region   = "eu-west-1"
+  aws_region          = "eu-west-1"
   state_bucket_region = "eu-west-1"
-  aws_account_id = "957617350095"
+  aws_account_id      = "957617350095"
 }
 
 # Configure Terragrunt to automatically store tfstate files in an S3 bucket
@@ -15,15 +15,15 @@ remote_state {
     dynamodb_table = "ptdb-infrastructure-terraform-locks-table"
 
     s3_bucket_tags = {
-      Name        = "Terraform State Files"
-      Environment = "terraform-state"
+      Name         = "Terraform State Files"
+      Environment  = "terraform-state"
       "managed by" = "terraform"
-      "owner" = "shaelin.naidoo@bbd.co.za"
+      "owner"      = "shaelin.naidoo@bbd.co.za"
     }
 
     dynamodb_table_tags = {
       "managed by" = "terraform"
-      "owner" = "shaelin.naidoo@bbd.co.za"
+      "owner"      = "shaelin.naidoo@bbd.co.za"
     }
 
   }
