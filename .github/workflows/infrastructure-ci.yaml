@@ -25,7 +25,7 @@ jobs:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.working_dir }}
-          tg_command: 'validate
+          tg_command: 'validate'
 
   plan:
     runs-on: ubuntu-latest
