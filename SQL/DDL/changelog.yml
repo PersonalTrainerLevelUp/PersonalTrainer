@@ -1,0 +1,6 @@
+databaseChangeLog:
+    - include:
+       file: ./SQL/DDL/TableCreates.sql
+
+    - include:
+       file: ./SQL/DDL/TableAlters.sql
