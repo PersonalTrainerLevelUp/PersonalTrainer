@@ -6,6 +6,10 @@ env:
   tf_version: '1.5.7'
   tg_version: '0.53.2'
   working_dir: 'infrastructure-test'
+  
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   validate:
