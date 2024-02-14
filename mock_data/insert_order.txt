@@ -1,0 +1,2 @@
+This order must be followed for the insertions to succeed:
+exercises -> difficulty -> programs -> program_exercise -> clients -> client_program -> billing -> payments
