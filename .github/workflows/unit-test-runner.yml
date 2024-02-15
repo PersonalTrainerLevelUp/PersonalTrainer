@@ -50,4 +50,4 @@ jobs:
 
       - name: Cleanup testdb
         run:
-          psql -h localhost -U testuser -w -d testdb -c "DROP DATABASE testdb"
+         psql -h localhost -U testuser -w -d postgres -c "DROP DATABASE testdb;"
