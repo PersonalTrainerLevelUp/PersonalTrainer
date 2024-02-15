@@ -51,7 +51,7 @@ jobs:
 
       - name: Run SQL Unit Tests
         run: |
-          node ./__tests__/db.tests.js
+          npm test
         env:
           PGPASSWORD: testpass
           PGHOST: localhost
