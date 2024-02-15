@@ -1,0 +1,49 @@
+name: Database change CD
+
+on:
+  pull_request_review:
+    types: [submitted]
+    paths:
+      - "./SQL/DDL/**"
+
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+
+jobs:
+  migrate_db:
+    name: Migrate DB
+    if: github.event.review.state == 'approved'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone the repo
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{secrets.AWS_ASSUME_ROLE}}
+          aws-region: "eu-west-1"
+
+      - name: Get DB credentials
+        uses: aws-actions/aws-secretsmanager-get-secrets@v1
+        with:
+          secret-ids: |
+            DB_DETAILS, rds*
+          parse-json-secrets: true
+
+      - name: Fetch AWS RDS endpoint
+        run: |
+          echo "DB_ENDPOINT=$(aws rds describe-db-instances --db-instance-identifier ptdb --query 'DBInstances[0].Endpoint.Address' --output text)" >> $GITHUB_ENV
+    
+      - name: Perform migration
+        uses: liquibase-github-actions/update@v4.26.0
+        with:
+          # The root changelog
+          changelogFile: "./SQL/DDL/changelog.yml"
+          # The JDBC database connection URL
+          url: "jdbc:postgresql://${{env.DB_ENDPOINT}}:5432/ptdb"
+          # Password to use to connect to the database
+          password: "${{env.DB_DETAILS_PASSWORD}}"
+          # Username to use to connect to the database
+          username: "${{env.DB_DETAILS_USERNAME}}"

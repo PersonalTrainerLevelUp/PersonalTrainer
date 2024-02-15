@@ -1,14 +1,17 @@
-name: Database change CI/CD
+name: Database change CI
 
-on: [pull_request]
+on:
+  push:
+    paths:
+      - "./SQL/DDL/**"
 
 permissions:
   id-token: write   # This is required for requesting the JWT
   contents: read    # This is required for actions/checkout
 
 jobs:
-  migrate_db:
-    name: Migrate DB
+  test_migrate_db:
+    name: Test Migrate DB
     runs-on: ubuntu-latest
     steps:
       - name: Clone the repo
@@ -31,8 +34,8 @@ jobs:
         run: |
           echo "DB_ENDPOINT=$(aws rds describe-db-instances --db-instance-identifier ptdb --query 'DBInstances[0].Endpoint.Address' --output text)" >> $GITHUB_ENV
     
-      - name: Perform migration
-        uses: liquibase-github-actions/update@v4.26.0
+      - name: Perform migration test
+        uses: liquibase-github-actions/validate@v4.26.0
         with:
           # The root changelog
           changelogFile: "./SQL/DDL/changelog.yml"
