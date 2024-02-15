@@ -8,9 +8,6 @@ const db = pgp({
 	database: "PersonalTrainerDB",
 	user: process.env.PGUSER,
 	password: process.env.PGPASSWORD,
-	ssl: {
-		rejectUnauthorized: false,
-	},
 });
 //tests for table existence
 describe("PostgreSQL Views Tests", () => {
