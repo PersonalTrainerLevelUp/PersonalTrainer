@@ -1,8 +1,8 @@
 databaseChangeLog:
    - include:
-      file: ./SQL/DDL/TableCreates.sql
+      file: ./SQL/DDL/tableCreates.sql
    - include:
-      file: ./SQL/DDL/TableAlters.sql
+      file: ./SQL/DDL/tableAlters.sql
 
    - include:
       file: ./SQL/MockData/exercises.sql
@@ -20,3 +20,10 @@ databaseChangeLog:
       file: ./SQL/MockData/billing.sql
    - include:
       file: ./SQL/MockData/payments.sql
+
+   - include:
+      file: ./SQL/DatabaseObjects/views.sql
+   - include:
+      file: ./SQL/DatabaseObjects/procedures.sql
+   - include:
+      file: ./SQL/DatabaseObjects/functions.sql
