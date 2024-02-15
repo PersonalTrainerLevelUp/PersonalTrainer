@@ -1,11 +1,16 @@
 name: 'Terragrunt GitHub Actions'
 on:
-  - workflow_dispatch
+  push:
+    branches: 
+      - main
+    paths: 
+      - "infrastructure/**"
+  workflow_dispatch:
 
 env:
   tf_version: '1.5.7'
   tg_version: '0.53.2'
-  working_dir: 'infrastructure-test'
+  working_dir: 'infrastructure'
   
 permissions:
   id-token: write

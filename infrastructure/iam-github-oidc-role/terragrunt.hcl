@@ -6,6 +6,15 @@ include "root" {
   path = find_in_parent_folders()
 }
 
+dependency "iam_policy" {
+  config_path = "../iam-rds-access-policy"
+
+  mock_outputs_allowed_terraform_commands = ["validate", "plan"]
+  mock_outputs = {
+    arn = "policy-arn"
+  }
+}
+
 locals {
   organization = "PersonalTrainerLevelUp"
   repo         = "PersonalTrainer"
@@ -15,5 +24,5 @@ locals {
 inputs = {
   name             = "Github-OIDC-RDS-Access-Role"
   subjects         = ["${local.organization}/${local.repo}/${local.branch}"]
-  role_policy_arns = {}
+  role_policy_arns = ["arn:aws:iam::aws:policy/AdministratorAccess"]
 }
