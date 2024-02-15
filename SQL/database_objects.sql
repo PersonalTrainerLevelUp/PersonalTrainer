@@ -9,10 +9,9 @@ SELECT
     c.contact_number,
     c.date_of_birth,
     c.joined_date,
-    cp.program_id,
     p.program_name,
-    cp.start_date,
-    cp.end_date
+    cp.start_date AS program_start_date,
+    cp.end_date AS  program_end_date
 FROM
     clients c
 JOIN
@@ -20,6 +19,7 @@ JOIN
 JOIN
     programs p ON cp.program_id = p.program_id;
 
+--still needs manual testing
 CREATE OR REPLACE VIEW BillingDetailsView AS
 SELECT
     b.billing_id,
@@ -35,19 +35,17 @@ LEFT JOIN
     payments p ON b.billing_id = p.billing_id;
 
 CREATE OR REPLACE VIEW ProgramExercisesView AS
-SELECT
-    pe.program_id,
-    pe.exercise_id,
+ SELECT p.program_name,
     e.exercise_name,
     e.exercise_type,
     e.exercise_description,
     pe.set_count,
     pe.rep_count,
     pe.rest_period_seconds
-FROM
-    program_exercise pe
-JOIN
-    exercises e ON pe.exercise_id = e.exercise_id;
+   FROM program_exercise pe
+     JOIN exercises e ON pe.exercise_id = e.exercise_id
+     JOIN programs p ON pe.program_id = p.program_id
+  ORDER BY p.program_name;
 
 -- Stored Procedures
 CREATE OR REPLACE PROCEDURE CreateClient(
@@ -67,7 +65,7 @@ $$
 LANGUAGE plpgsql;
 
 CREATE OR REPLACE PROCEDURE UpdateClient(
-    IN client_id INTEGER,
+    IN p_client_id INTEGER,
     IN new_first_name VARCHAR(255),
     IN new_last_name VARCHAR(255),
     IN new_email VARCHAR(255),
@@ -84,11 +82,12 @@ BEGIN
         contact_number = new_contact_number,
         date_of_birth = new_date_of_birth,
         joined_date = new_joined_date
-    WHERE client_id = client_id;
+    WHERE client_id = p_client_id; 
 END;
 $$
 LANGUAGE plpgsql;
 
+--still needs manual testing
 CREATE OR REPLACE PROCEDURE GenerateBill(
     IN client_id INTEGER,
     IN amount DECIMAL(6,2),
@@ -104,29 +103,29 @@ LANGUAGE plpgsql;
 
 -- Scalar Functions
 CREATE OR REPLACE FUNCTION CalculateTotalPayment(
-    billing_id INTEGER
+    billing_id_param INTEGER
 )
 RETURNS DECIMAL
 AS $$
 DECLARE
     total_payment DECIMAL;
 BEGIN
-    SELECT SUM(amount) INTO total_payment FROM payments WHERE billing_id = billing_id;
+    SELECT SUM(amount) INTO total_payment FROM payments WHERE billing_id = billing_id_param;
     RETURN total_payment;
 END;
 $$
 LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION CalculateProgramDuration(
-    program_id INTEGER
+    program_id_param INTEGER
 )
 RETURNS INTEGER
 AS $$
 DECLARE
-    duration INTEGER;
+    duration INTERVAL;
 BEGIN
-    SELECT EXTRACT(DAY FROM (end_date - start_date)) INTO duration FROM client_program WHERE program_id = program_id;
-    RETURN duration;
+    SELECT AGE(end_date, start_date) INTO duration FROM client_program WHERE program_id = program_id_param;
+    RETURN EXTRACT(DAY FROM duration);
 END;
 $$
 LANGUAGE plpgsql;
@@ -143,11 +142,12 @@ RETURNS TABLE (
 )
 AS $$
 BEGIN
-    RETURN QUERY SELECT program_id, program_name, start_date, end_date FROM client_program WHERE client_id = client_id;
+    RETURN QUERY SELECT cp.program_id, p.program_name, cp.start_date, cp.end_date FROM client_program cp JOIN programs p ON cp.program_id = p.program_id WHERE cp.client_id = GetClientPrograms.client_id;
 END;
 $$
 LANGUAGE plpgsql;
 
+--still needs testing
 CREATE OR REPLACE FUNCTION GetUnpaidBills()
 RETURNS TABLE (
     billing_id INTEGER,
