@@ -4,6 +4,8 @@ on:
   push:
     branches: 
       - main
+    paths: 
+      - "SQL/**"
 
 permissions:
   id-token: write   # This is required for requesting the JWT
@@ -12,7 +14,6 @@ permissions:
 jobs:
   migrate_db:
     name: Migrate DB
-    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
     steps:
       - name: Clone the repo
