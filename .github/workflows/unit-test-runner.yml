@@ -20,10 +20,10 @@ jobs:
       - name: Create test database
         run: |
           export PGPASSWORD="testpass"
-          psql -h localhost -U postgres -w -d postgres -c "CREATE DATABASE testdb;"
+          psql -h localhost -U testuser -w -d postgres -c "CREATE DATABASE testdb;"
 
       - name: Connect to testdb and execute DDL
         run: |
           export PGPASSWORD="testpass"
-          psql -h localhost -U postgres -w -d testdb -f "./SQL/DDL/TableCreates.sql"
-          psql -h localhost -U postgres -w -d testdb -f "./SQL/DDL/TableAlters.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/DDL/TableCreates.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/DDL/TableAlters.sql"
