@@ -57,7 +57,7 @@ BEGIN
         c.first_name AS firstName,
         c.last_name AS lastName,
         c.email AS clientEmail,
-        payment_sum.total_payment AS amountStillOwed
+        (b.amount * months.months_with_client) - (payment_sum.total_payment) AS amountStillOwed
     FROM 
         billing b
     JOIN
