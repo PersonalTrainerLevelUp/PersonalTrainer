@@ -1,4 +1,4 @@
---changeset karl:procedure:CreateClient
+--changeset karl:procedure:CreateClient runOnChange:true
 --comment: Procedure for creating a client
 CREATE OR REPLACE PROCEDURE CreateClient(
     IN first_name VARCHAR(255),
@@ -17,7 +17,7 @@ $$
 LANGUAGE plpgsql;
 --rollback DROP PROCEDURE "CreateClient";
 
---changeset karl:procedure:CreateClientBillingProgram
+--changeset karl:procedure:CreateClientBillingProgram runOnChange:true
 --comment: Procedure for creating a client billing program
 CREATE OR REPLACE PROCEDURE CreateClientBillingProgram(
     IN p_first_name VARCHAR(255),
@@ -48,7 +48,7 @@ $$
 LANGUAGE plpgsql;
 --rollback DROP PROCEDURE "CreateClientBillingProgram";
 
---changeset karl:procedure:UpdateClient
+--changeset karl:procedure:UpdateClient runOnChange:true
 --comment: Procedure for updating client details
 CREATE OR REPLACE PROCEDURE UpdateClient(
     IN p_client_id INTEGER,
