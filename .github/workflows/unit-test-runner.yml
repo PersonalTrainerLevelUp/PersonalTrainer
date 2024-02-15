@@ -35,4 +35,4 @@ jobs:
       - name: Test if clients table is there
         run: |
           export PGPASSWORD="testpass"
-          psql -h localhost -U testuser -w -d testdb -f "./SQL/Checks/existence_checks.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/Checks/existence_check.sql"
