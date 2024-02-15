@@ -1,4 +1,4 @@
---changeset karl:function:scalar:CalculateTotalPayment
+--changeset karl:function:scalar:CalculateTotalPayment runOnChange:true
 --comment: Scalar function for calculating total payment
 CREATE OR REPLACE FUNCTION CalculateTotalPayment(
     client_id_param INTEGER
@@ -19,7 +19,7 @@ $$
 LANGUAGE plpgsql;
 --rollback DROP FUNCTION "CalculateTotalPayment";
 
---changeset karl:function:table:CalculateClientProgramDuration
+--changeset karl:function:table:CalculateClientProgramDuration runOnChange:true
 --comment: Table-valued function for calculating client program duration
 CREATE OR REPLACE FUNCTION CalculateClientProgramDuration(
     client_id_param INTEGER
@@ -39,10 +39,8 @@ $$
 LANGUAGE plpgsql;
 --rollback DROP FUNCTION "CalculateClientProgramDuration";
 
-
-
---changeset liam:function:table:GetUnpaidBills
---comment: Update variable name
+--changeset karl:function:table:GetUnpaidBills runOnChange:true
+--comment: Table-valued function for getting unpaid bills
 CREATE OR REPLACE FUNCTION GetUnpaidBills()
 RETURNS TABLE (
     firstName VARCHAR,

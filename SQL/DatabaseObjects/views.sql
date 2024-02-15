@@ -1,4 +1,4 @@
---changeset karl:view:ClientDetailsView
+--changeset karl:view:ClientDetailsView runOnChange:true
 --comment: Client details view
 CREATE OR REPLACE VIEW ClientDetailsView AS
 SELECT DISTINCT ON (c.client_id)
@@ -23,54 +23,8 @@ ORDER BY
     cp.start_date DESC;
 --rollback DROP VIEW "ClientDetailsView";
 
---changeset karl:view:BillingDetailsView
+--changeset karl:view:BillingDetailsView runOnChange:true
 --comment: Billing details view
-CREATE OR REPLACE VIEW BillingDetailsView AS
-SELECT
-    b.billing_id,
-    c.first_name,
-	c.last_name,
-	c.email,
-    b.amount * DATE_PART('month', AGE(CURRENT_DATE, c.joined_date)) AS total_billed,
-    COALESCE(SUM(p.amount), 0) AS amount_paid,
-	(b.amount * DATE_PART('month', AGE(CURRENT_DATE, c.joined_date))) - (COALESCE(SUM(p.amount), 0)) AS amount_owed
-FROM
-    billing b
-JOIN
-    clients c ON b.client_id = c.client_id
-LEFT JOIN
-    payments p ON b.billing_id = p.billing_id
-GROUP BY
-    b.billing_id,
-    c.first_name,
-    c.last_name,
-	c.email,
-    b.amount,
-    b.payment_due_date,
-    p.payment_date,
-    c.joined_date
-ORDER BY
-    b.billing_id;
---rollback DROP VIEW "BillingDetailsView";
-
---changeset karl:view:ProgramExercisesView
---comment: Program exercises view
-CREATE OR REPLACE VIEW ProgramExercisesView AS
- SELECT p.program_name,
-    e.exercise_name,
-    e.exercise_type,
-    e.exercise_description,
-    pe.set_count,
-    pe.rep_count,
-    pe.rest_period_seconds
-   FROM program_exercise pe
-     JOIN exercises e ON pe.exercise_id = e.exercise_id
-     JOIN programs p ON pe.program_id = p.program_id
-  ORDER BY p.program_name;
---rollback DROP VIEW "ProgramExercisesView";
-
---changeset liam:view:BillingDetailsView
---comment: Redid logic of billingDetailsView
 CREATE OR REPLACE VIEW BillingDetailsView AS
  SELECT b.billing_id,
     c.first_name,
@@ -88,3 +42,19 @@ CREATE OR REPLACE VIEW BillingDetailsView AS
   GROUP BY b.billing_id, c.first_name, c.last_name, c.email, b.amount, b.payment_due_date, c.joined_date, p.amount_paid
   ORDER BY b.billing_id;
 --rollback DROP VIEW "BillingDetailsView";
+
+--changeset karl:view:ProgramExercisesView runOnChange:true
+--comment: Program exercises view
+CREATE OR REPLACE VIEW ProgramExercisesView AS
+ SELECT p.program_name,
+    e.exercise_name,
+    e.exercise_type,
+    e.exercise_description,
+    pe.set_count,
+    pe.rep_count,
+    pe.rest_period_seconds
+   FROM program_exercise pe
+     JOIN exercises e ON pe.exercise_id = e.exercise_id
+     JOIN programs p ON pe.program_id = p.program_id
+  ORDER BY p.program_name;
+--rollback DROP VIEW "ProgramExercisesView";
