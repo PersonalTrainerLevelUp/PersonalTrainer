@@ -25,32 +25,23 @@ ORDER BY
 
 --changeset karl:view:BillingDetailsView
 --comment: Billing details view
-CREATE OR REPLACE VIEW BillingDetailsView AS
-SELECT
-    b.billing_id,
-    c.first_name,
-	c.last_name,
-	c.email,
-    b.amount * DATE_PART('month', AGE(CURRENT_DATE, c.joined_date)) AS total_billed,
-    COALESCE(SUM(p.amount), 0) AS amount_paid,
-	(b.amount * DATE_PART('month', AGE(CURRENT_DATE, c.joined_date))) - (COALESCE(SUM(p.amount), 0)) AS amount_owed
-FROM
-    billing b
-JOIN
-    clients c ON b.client_id = c.client_id
-LEFT JOIN
-    payments p ON b.billing_id = p.billing_id
-GROUP BY
-    b.billing_id,
-    c.first_name,
-    c.last_name,
-	c.email,
-    b.amount,
-    b.payment_due_date,
-    p.payment_date,
-    c.joined_date
-ORDER BY
-    b.billing_id;
+SELECT b.billing_id,
+       c.first_name,
+       c.last_name,
+       c.email,
+       b.amount::double precision * date_part('month'::text, age(CURRENT_DATE::timestamp with time zone, c.joined_date::timestamp with time zone)) AS total_billed,
+       COALESCE(p.amount_paid, 0::numeric) AS amount_paid,
+       b.amount::double precision * date_part('month'::text, age(CURRENT_DATE::timestamp with time zone, c.joined_date::timestamp with time zone)) - COALESCE(p.amount_paid, 0::numeric)::double precision AS amount_owed
+FROM billing b
+JOIN clients c ON b.client_id = c.client_id
+LEFT JOIN (
+    SELECT billing_id,
+           COALESCE(SUM(amount), 0) AS amount_paid
+    FROM payments
+    GROUP BY billing_id
+) p ON b.billing_id = p.billing_id
+GROUP BY b.billing_id, c.first_name, c.last_name, c.email, b.amount, b.payment_due_date, c.joined_date, p.amount_paid
+ORDER BY b.billing_id;
 --rollback DROP VIEW "BillingDetailsView";
 
 --changeset karl:view:ProgramExercisesView
