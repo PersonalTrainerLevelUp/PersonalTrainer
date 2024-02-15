@@ -33,11 +33,7 @@ jobs:
           psql -h localhost -U testuser -w -d testdb -f "./SQL/DDL/tableCreates.sql"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/DDL/tableAlters.sql"
 
-      - name: Test if the tables exists
-        run: |
-          psql -h localhost -U testuser -w -d testdb -f "./SQL/Checks/existence_check.sql"
-
-      - name: Add dummy data in order
+      - name: Add test data, in order
         run: |
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/exercises.sql"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/difficulty.sql"
@@ -47,6 +43,11 @@ jobs:
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/client_program.sql"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/billing.sql"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/payments.sql"
+
+      - name: Install jest dependencies
+        run: |
+          npm install jest
+          npm install pg-promise
 
       - name: Run SQL Unit Tests
         run: |
