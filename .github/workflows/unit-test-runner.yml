@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: Create test database
         run: |
-          psql -h localhost -U postgres -d postgres -c "CREATE DATABASE testdb;"
+          psql -h localhost -U postgres -p postgres -d postgres -c "CREATE DATABASE testdb;"
 
       - name: Connect to testdb and execute DDL
         run: |
