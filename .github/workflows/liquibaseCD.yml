@@ -3,8 +3,6 @@ name: Database change CD
 on:
   pull_request_review:
     types: [submitted]
-    paths:
-      - "./SQL/**"
 
 permissions:
   id-token: write   # This is required for requesting the JWT
