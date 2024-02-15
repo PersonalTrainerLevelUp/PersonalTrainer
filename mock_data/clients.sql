@@ -99,4 +99,3 @@ insert into clients (first_name, last_name, email, contact_number, date_of_birth
 ('Melisent', 'Sutherden', 'msutherden2p@pcworld.com', '2751600935', '1999-06-10', '2023-03-30'),
 ('Steffi', 'Townson', 'stownson2q@sourceforge.net', '6861107617', '1978-05-10', '2023-01-06'),
 ('Oliy', 'Poulson', 'opoulson2r@4shared.com', '6671326632', '1978-10-16', '2023-05-07');
-GO

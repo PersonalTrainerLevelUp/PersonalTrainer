@@ -37,7 +37,7 @@ jobs:
           # The root changelog
           changelogFile: "./SQL/DDL/changelog.yml"
           # The JDBC database connection URL
-          url: "jdbc:postgresql://${{env.DB_ENDPOINT}}:5432/PersonalTrainerDB"
+          url: "jdbc:postgresql://${{env.DB_ENDPOINT}}:5432/ptdb"
           # Password to use to connect to the database
           password: "${{env.DB_DETAILS_PASSWORD}}"
           # Username to use to connect to the database
