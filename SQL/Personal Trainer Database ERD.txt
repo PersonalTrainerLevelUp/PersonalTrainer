@@ -11,7 +11,7 @@ Table clients {
 
 Table programs {
 	program_id integer pk 
-	program_name integer
+	program_name varchar
 	difficulty_id integer
 	program_description varchar
 }
@@ -43,13 +43,13 @@ Table program_exercise {
 Table billing {
 	billing_id integer pk 
 	client_id integer 
-	amount money
+	amount decimal
 	payment_due_date date
 }
 
 Table payments {
 	payment_id integer pk 
-	amount integer
+	amount decimal
 	billing_id integer 
 	payment_date date
 }
