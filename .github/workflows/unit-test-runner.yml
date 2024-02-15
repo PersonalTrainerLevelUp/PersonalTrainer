@@ -25,7 +25,6 @@ jobs:
 
       - name: Create test database
         run: |
-          psql -h localhost -U testuser -w -d postgres -c "DROP DATABASE testdb;"
           psql -h localhost -U testuser -w -d postgres -c "CREATE DATABASE testdb;"
 
       - name: Connect to testdb and execute DDL
@@ -36,7 +35,8 @@ jobs:
       - name: Test if the tables exists
         run: |
           psql -h localhost -U testuser -w -d testdb -f "./SQL/Checks/existence_check.sql"
-      - name: Add dummy data
+
+      - name: Add dummy data in order
         run: |
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/exercises.sql"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/difficulty.sql"
@@ -47,3 +47,9 @@ jobs:
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/billing.sql"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/payments.sql"
           
+  cleanup:
+    runs-on: ubuntu-latest
+    needs: [run_unit_tests]
+    steps:
+      - name: Cleanup PostgreSQL service
+        run: docker-compose down -v
