@@ -1,6 +1,22 @@
 databaseChangeLog:
-    - include:
-       file: ./SQL/DDL/TableCreates.sql
+   - include:
+      file: ./SQL/DDL/TableCreates.sql
+   - include:
+      file: ./SQL/DDL/TableAlters.sql
 
-    - include:
-       file: ./SQL/DDL/TableAlters.sql
+   - include:
+      file: ./SQL/MockData/exercises.sql
+   - include:
+      file: ./SQL/MockData/difficulty.sql
+   - include:
+      file: ./SQL/MockData/programs.sql
+   - include:
+      file: ./SQL/MockData/program_exercise.sql
+   - include:
+      file: ./SQL/MockData/clients.sql
+   - include:
+      file: ./SQL/MockData/client_program.sql
+   - include:
+      file: ./SQL/MockData/billing.sql
+   - include:
+      file: ./SQL/MockData/payments.sql

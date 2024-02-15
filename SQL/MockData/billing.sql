@@ -1,3 +1,5 @@
+--changeset karl:dml:mockData:billing
+--comment: Add mock data to billing
 insert into billing (client_id, amount, payment_due_date) values (1, 850, '2024-02-27'),
 (2, 400, '2024-02-26'),
 (3, 400, '2024-02-03'),
@@ -98,3 +100,4 @@ insert into billing (client_id, amount, payment_due_date) values (1, 850, '2024-
 (98, 850, '2024-02-29'),
 (99, 250, '2024-01-07'),
 (100, 400, '2024-02-29');
+--rollback DELETE FROM "clients";

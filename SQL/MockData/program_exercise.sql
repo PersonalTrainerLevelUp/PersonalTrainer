@@ -1,3 +1,5 @@
+--changeset karl:dml:mockData:program_exercise
+--comment: Add mock data to program_exercise
 insert into program_exercise (exercise_id, program_id, set_count, rep_count, rest_period_seconds) values (7, 3, 3, 15, 120),
 (13, 3, 6, 11, 120),
 (14, 2, 4, 10, 15),
@@ -78,3 +80,4 @@ insert into program_exercise (exercise_id, program_id, set_count, rep_count, res
 (7, 3, 6, 14, 60),
 (6, 2, 4, 9, 60),
 (19, 1, 5, 5, 60);
+--rollback DELETE FROM "program_exercise";

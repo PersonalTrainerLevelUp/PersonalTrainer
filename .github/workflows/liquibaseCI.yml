@@ -1,6 +1,9 @@
 name: Database change CI
 
-on: push
+on: 
+  push:
+    paths:
+      - "./SQL/**"
 
 permissions:
   id-token: write   # This is required for requesting the JWT
