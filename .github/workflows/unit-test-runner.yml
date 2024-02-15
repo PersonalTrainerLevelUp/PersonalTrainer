@@ -43,6 +43,12 @@ jobs:
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/client_program.sql"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/billing.sql"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/payments.sql"
+          
+      - name: Add procedures, functions, and views
+        run: |
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/DatabaseObjects/functions.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/DatabaseObjects/procedures.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/DatabaseObjects/views.sql"
 
       - name: Install jest dependencies
         run: |
