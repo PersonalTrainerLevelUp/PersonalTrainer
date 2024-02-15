@@ -36,3 +36,15 @@ jobs:
         run: |
           export PGPASSWORD="testpass"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/Checks/existence_check.sql"
+      - name: Add dummy data
+        run: |
+          export PGPASSWORD="testpass"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/exercises.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/difficulty.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/programs.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/program_exercise.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/clients.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/client_program.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/billing.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/payments.sql"
+          
