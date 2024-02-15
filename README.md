@@ -3,7 +3,7 @@ prereq:
 aws account with: 
 role to access IAM, RDS, SecretsManager,Ec2(vpc)
 github oidc provider
-
+pgadmin (not needed to run but recomendeded to easily access the DB)
 
 Clone repo
 
