@@ -191,7 +191,7 @@ describe("PostgreSQL Table-Valued Functions Tests", () => {
 		expect(firstEntry.firstname).toBe("Leila");
 		expect(firstEntry.lastname).toBe("Gouldstone");
 		expect(firstEntry.clientemail).toBe("lgouldstone5@a8.net");
-		expect(parseFloat(firstEntry.amountstillowe)).toBe(4373.0);
+		expect(parseFloat(firstEntry.amountstillowed)).toBe(4373.00);
 	});
 });
 
@@ -202,6 +202,6 @@ describe("PostgreSQL Scalar Functions Tests", () => {
 			"SELECT CalculateTotalPayment($1) AS total_payment",
 			[4]
 		);
-		expect(totalPayment.total_payment).toBe(3078.0);
+		expect(totalPayment.total_payment).toBe("3078.00");
 	});
 });
