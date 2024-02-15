@@ -25,7 +25,8 @@ jobs:
 
       - name: Create test database
         run: |
-          psql -h localhost -U testuser -w -d postgres -c "CREATE DATABASE testdb;"
+         psql -h localhost -U testuser -w -d postgres -c "DROP DATABASE testdb;"
+         psql -h localhost -U testuser -w -d postgres -c "CREATE DATABASE testdb;"
 
       - name: Connect to testdb and execute DDL
         run: |
