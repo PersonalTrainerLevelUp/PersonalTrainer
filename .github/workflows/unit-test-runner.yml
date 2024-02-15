@@ -2,6 +2,9 @@ name: Run SQL Unit Tests
 
 on: push
 
+env:
+    PGPASSWORD: "testpass"
+
 jobs:
   run_unit_tests:
     name: Run Unit Tests
@@ -22,23 +25,18 @@ jobs:
 
       - name: Create test database
         run: |
-          export PGPASSWORD="testpass"
-          psql -h localhost -U testuser -w -d postgres -c "DROP DATABASE testdb;"
           psql -h localhost -U testuser -w -d postgres -c "CREATE DATABASE testdb;"
 
       - name: Connect to testdb and execute DDL
         run: |
-          export PGPASSWORD="testpass"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/DDL/tableCreates.sql"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/DDL/tableAlters.sql"
 
       - name: Test if clients table is there
         run: |
-          export PGPASSWORD="testpass"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/Checks/existence_check.sql"
       - name: Add dummy data
         run: |
-          export PGPASSWORD="testpass"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/exercises.sql"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/difficulty.sql"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/programs.sql"
