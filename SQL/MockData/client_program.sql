@@ -1,3 +1,5 @@
+--changeset karl:dml:mockData:client_program
+--comment: Add mock data to client_program
 insert into client_program (program_id, client_id, start_date, end_date) values (1, 1, '2023-05-23', '2024-12-23'),
 (2, 2, '2023-10-13', '2025-01-01'),
 (4, 3, '2023-04-15', '2024-02-13'),
@@ -98,3 +100,4 @@ insert into client_program (program_id, client_id, start_date, end_date) values 
 (3, 98, '2023-03-28', '2024-12-01'),
 (1, 99, '2023-11-03', '2024-08-22'),
 (4, 100, '2023-04-12', '2025-02-03');
+--rollback DELETE FROM "client_program";
