@@ -19,9 +19,9 @@ jobs:
     steps:
       - name: Create test database
         run: |
-          psql -h localhost -U postgres -w "$POSTGRES_PASSWORD" -d postgres -c "CREATE DATABASE testdb;"
+          psql -h localhost -U postgres -w postgres -d postgres -c "CREATE DATABASE testdb;"
 
       - name: Connect to testdb and execute DDL
         run: |
-          psql -h localhost -U postgres -w "$POSTGRES_PASSWORD" -d testdb -f "./SQL/DDL/TableCreates.sql"
-          psql -h localhost -U postgres -w "$POSTGRES_PASSWORD" -d testdb -f "./SQL/DDL/TableAlters.sql"
+          psql -h localhost -U postgres -w postgres -d testdb -f "./SQL/DDL/TableCreates.sql"
+          psql -h localhost -U postgres -w postgres -d testdb -f "./SQL/DDL/TableAlters.sql"
