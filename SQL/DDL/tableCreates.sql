@@ -55,7 +55,7 @@ CREATE TABLE "program_exercise" (
 --rollback DROP TABLE "program_exercise";
 
 --changeset karl:ddl:createTable:billing
---comment: Create billing table
+--comment: Create billing table 
 CREATE TABLE "billing" (
   "billing_id" serial PRIMARY KEY NOT NULL,
   "client_id" integer NOT NULL,

@@ -1,3 +1,5 @@
+--changeset karl:dml:mockData:payments
+--comment: Add mock data to payments
 INSERT into payments (billing_id, amount, payment_date) values (75, 561, '2022-10-21'),
  (41, 789, '2022-07-16'),
  (20, 340, '2023-09-05'),
@@ -998,3 +1000,4 @@ INSERT into payments (billing_id, amount, payment_date) values (75, 561, '2022-1
  (3, 792, '2022-05-25'),
  (56, 498, '2022-08-09'),
  (33, 848, '2022-12-08');
+--rollback DELETE FROM "payments";

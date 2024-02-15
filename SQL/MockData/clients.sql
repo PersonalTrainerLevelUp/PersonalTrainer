@@ -1,3 +1,5 @@
+--changeset karl:dml:mockData:clients
+--comment: Add mock data to clients
 insert into clients (first_name, last_name, email, contact_number, date_of_birth, joined_date) values
 ('Monah', 'Stiell', 'mstiell0@twitter.com', '5495747416', '1972-05-24', '2023-09-22'),
 ('Julius', 'Grogona', 'jgrogona1@un.org', '9681361846', '1977-12-27', '2024-01-19'),
@@ -99,3 +101,4 @@ insert into clients (first_name, last_name, email, contact_number, date_of_birth
 ('Melisent', 'Sutherden', 'msutherden2p@pcworld.com', '2751600935', '1999-06-10', '2023-03-30'),
 ('Steffi', 'Townson', 'stownson2q@sourceforge.net', '6861107617', '1978-05-10', '2023-01-06'),
 ('Oliy', 'Poulson', 'opoulson2r@4shared.com', '6671326632', '1978-10-16', '2023-05-07');
+--rollback DELETE FROM "clients";
