@@ -1,4 +1,4 @@
---changeset karl:function:scalar:CalculateTotalPayment
+--changeset karl:function:scalar:CalculateTotalPayment runOnChange:true
 --comment: Scalar function for calculating total payment
 CREATE OR REPLACE FUNCTION CalculateTotalPayment(
     client_id_param INTEGER
@@ -19,7 +19,7 @@ $$
 LANGUAGE plpgsql;
 --rollback DROP FUNCTION "CalculateTotalPayment";
 
---changeset karl:function:table:CalculateClientProgramDuration
+--changeset karl:function:table:CalculateClientProgramDuration runOnChange:true
 --comment: Table-valued function for calculating client program duration
 CREATE OR REPLACE FUNCTION CalculateClientProgramDuration(
     client_id_param INTEGER
@@ -39,14 +39,14 @@ $$
 LANGUAGE plpgsql;
 --rollback DROP FUNCTION "CalculateClientProgramDuration";
 
---changeset karl:function:table:GetUnpaidBills
+--changeset karl:function:table:GetUnpaidBills runOnChange:true
 --comment: Table-valued function for getting unpaid bills
 CREATE OR REPLACE FUNCTION GetUnpaidBills()
 RETURNS TABLE (
     firstName VARCHAR,
     lastName VARCHAR,
     clientEmail VARCHAR,
-    amountStillOwe DECIMAL(6,2)
+    amountStillOwed DECIMAL(6,2)
 )
 AS $$
 DECLARE
@@ -57,7 +57,7 @@ BEGIN
         c.first_name AS firstName,
         c.last_name AS lastName,
         c.email AS clientEmail,
-        payment_sum.total_payment AS amountStillOwe
+        payment_sum.total_payment AS amountStillOwed
     FROM 
         billing b
     JOIN
