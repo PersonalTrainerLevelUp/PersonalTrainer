@@ -26,8 +26,8 @@ jobs:
       - name: Connect to testdb and execute DDL
         run: |
           export PGPASSWORD="testpass"
-          psql -h localhost -U testuser -w -d testdb -f "./SQL/DDL/TableCreates.sql"
-          psql -h localhost -U testuser -w -d testdb -f "./SQL/DDL/TableAlters.sql"
+          psql -h localhost -U testuser -w -d testdb -f "SQL/DDL/TableCreates.sql"
+          psql -h localhost -U testuser -w -d testdb -f "SQL/DDL/TableAlters.sql"
 
       - name: Test if clients table is there
         run: |
