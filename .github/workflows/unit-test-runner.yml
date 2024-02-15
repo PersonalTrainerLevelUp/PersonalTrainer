@@ -20,7 +20,7 @@ jobs:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
-      - name: checkout repo
+      - name: Checkout repo
         uses: actions/checkout@main
 
       - name: Create test database
@@ -33,7 +33,7 @@ jobs:
           psql -h localhost -U testuser -w -d testdb -f "./SQL/DDL/tableCreates.sql"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/DDL/tableAlters.sql"
 
-      - name: Test if clients table is there
+      - name: Test if the tables exists
         run: |
           psql -h localhost -U testuser -w -d testdb -f "./SQL/Checks/existence_check.sql"
       - name: Add dummy data
@@ -46,5 +46,4 @@ jobs:
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/client_program.sql"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/billing.sql"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/payments.sql"
-          psql -h localhost -U testuser -w -d testdb -c "SELECT first_name FROM clients WHERE client_id = 1;"
           
