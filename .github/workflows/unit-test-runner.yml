@@ -18,7 +18,7 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - name: checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@main
 
       - name: Create test database
         run: |
@@ -29,10 +29,10 @@ jobs:
       - name: Connect to testdb and execute DDL
         run: |
           export PGPASSWORD="testpass"
-          psql -h localhost -U testuser -w -d testdb -f "./SQL/DDL/TableCreates.sql"
-          psql -h localhost -U testuser -w -d testdb -f "./SQL/DDL/TableAlters.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/DDL/tableCreates.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/DDL/tableAlters.sql"
 
       - name: Test if clients table is there
         run: |
           export PGPASSWORD="testpass"
-          psql -h localhost -U testuser -w -d testdb -c "SELECT * FROM clients;"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/Checks/existence_checks.sql"
