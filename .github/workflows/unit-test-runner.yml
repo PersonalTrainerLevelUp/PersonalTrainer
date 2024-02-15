@@ -47,3 +47,7 @@ jobs:
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/client_program.sql"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/billing.sql"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/payments.sql"
+
+      - name: Cleanup testdb
+        run:
+          psql -h localhost -U testuser -w -d testdb -c "DROP DATABASE testdb"
