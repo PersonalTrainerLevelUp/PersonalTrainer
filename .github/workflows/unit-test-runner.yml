@@ -23,5 +23,5 @@ jobs:
 
       - name: Connect to testdb and execute DDL
         run: |
-          psql -h localhost -U postgres -d testdb -f "./SQL/DDL/TableCreates.sql"
-          psql -h localhost -U postgres -d testdb -f "./SQL/DDL/TableAlters.sql"
+          psql -h localhost -U postgres -p postgres -d testdb -f "./SQL/DDL/TableCreates.sql"
+          psql -h localhost -U postgres -p postgres -d testdb -f "./SQL/DDL/TableAlters.sql"
