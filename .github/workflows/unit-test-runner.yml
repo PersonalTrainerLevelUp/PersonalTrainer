@@ -51,7 +51,7 @@ jobs:
 
       - name: Run SQL Unit Tests
         run: |
-          jest
+          ./node_modules/.bin/jest 
         env:
           PGPASSWORD: testpass
           PGHOST: localhost
