@@ -1,0 +1,66 @@
+name: Run SQL Unit Tests
+
+on: pull_request
+
+env:
+    PGPASSWORD: "testpass"
+
+jobs:
+  run_unit_tests:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@main
+
+      - name: Create test database
+        run: |
+         psql -h localhost -U testuser -w -d postgres -c "DROP DATABASE testdb;"
+         psql -h localhost -U testuser -w -d postgres -c "CREATE DATABASE testdb;"
+
+      - name: Connect to testdb and execute DDL
+        run: |
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/DDL/tableCreates.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/DDL/tableAlters.sql"
+
+      - name: Add test data, in order
+        run: |
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/exercises.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/difficulty.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/programs.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/program_exercise.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/clients.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/client_program.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/billing.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/payments.sql"
+          
+      - name: Add procedures, functions, and views
+        run: |
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/DatabaseObjects/functions.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/DatabaseObjects/procedures.sql"
+          psql -h localhost -U testuser -w -d testdb -f "./SQL/DatabaseObjects/views.sql"
+
+      - name: Install jest dependencies
+        run: |
+          npm install jest
+          npm install pg-promise
+
+      - name: Run SQL Unit Tests
+        run: |
+          ./node_modules/.bin/jest 
+        env:
+          PGPASSWORD: testpass
+          PGHOST: localhost
+          PGPORT: 5432
+          PGUSER: testuser
+          PGDATABASE: testdb

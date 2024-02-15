@@ -37,3 +37,5 @@ terraform.rc
 *.terraform*
 
 /.venv
+
+/node_modules
