@@ -39,14 +39,16 @@ $$
 LANGUAGE plpgsql;
 --rollback DROP FUNCTION "CalculateClientProgramDuration";
 
---changeset karl:function:table:GetUnpaidBills
---comment: Table-valued function for getting unpaid bills
+
+
+--changeset liam:function:table:GetUnpaidBills
+--comment: Update variable name
 CREATE OR REPLACE FUNCTION GetUnpaidBills()
 RETURNS TABLE (
     firstName VARCHAR,
     lastName VARCHAR,
     clientEmail VARCHAR,
-    amountStillOwe DECIMAL(6,2)
+    amountStillOwed DECIMAL(6,2)
 )
 AS $$
 DECLARE
@@ -57,7 +59,7 @@ BEGIN
         c.first_name AS firstName,
         c.last_name AS lastName,
         c.email AS clientEmail,
-        payment_sum.total_payment AS amountStillOwe
+        payment_sum.total_payment AS amountStillOwed
     FROM 
         billing b
     JOIN

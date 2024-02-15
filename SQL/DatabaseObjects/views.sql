@@ -68,3 +68,23 @@ CREATE OR REPLACE VIEW ProgramExercisesView AS
      JOIN programs p ON pe.program_id = p.program_id
   ORDER BY p.program_name;
 --rollback DROP VIEW "ProgramExercisesView";
+
+--changeset liam:view:BillingDetailsView
+--comment: Redid logic of billingDetailsView
+CREATE OR REPLACE VIEW BillingDetailsView AS
+ SELECT b.billing_id,
+    c.first_name,
+    c.last_name,
+    c.email,
+    b.amount * EXTRACT(month FROM age(CURRENT_DATE::timestamp with time zone, c.joined_date::timestamp with time zone)) AS total_billed,
+    COALESCE(p.amount_paid, 0::numeric) AS amount_paid,
+    (b.amount * EXTRACT(month FROM age(CURRENT_DATE::timestamp with time zone, c.joined_date::timestamp with time zone)))::double precision - COALESCE(p.amount_paid, 0::numeric)::double precision AS amount_owed
+   FROM billing b
+     JOIN clients c ON b.client_id = c.client_id
+     LEFT JOIN ( SELECT payments.billing_id,
+            COALESCE(sum(payments.amount), 0::numeric) AS amount_paid
+           FROM payments
+          GROUP BY payments.billing_id) p ON b.billing_id = p.billing_id
+  GROUP BY b.billing_id, c.first_name, c.last_name, c.email, b.amount, b.payment_due_date, c.joined_date, p.amount_paid
+  ORDER BY b.billing_id;
+--rollback DROP VIEW "BillingDetailsView";
