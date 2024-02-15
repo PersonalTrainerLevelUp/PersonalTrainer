@@ -1,0 +1,27 @@
+name: Run SQL Unit Tests
+
+on: push
+
+jobs:
+  run_unit_tests:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - name: Create test database
+        run: |
+          psql -h localhost -U postgres -d postgres -c "CREATE DATABASE testdb;"
+
+      - name: Connect to testdb and execute DDL
+        run: |
+          psql -h localhost -U postgres -d testdb -f "./SQL/DDL/TableCreates.sql"
+          psql -h localhost -U postgres -d testdb -f "./SQL/DDL/TableAlters.sql"
