@@ -25,6 +25,7 @@ ORDER BY
 
 --changeset karl:view:BillingDetailsView
 --comment: Billing details view
+CREATE OR REPLACE VIEW BillingDetailsView AS
  SELECT b.billing_id,
     c.first_name,
     c.last_name,
