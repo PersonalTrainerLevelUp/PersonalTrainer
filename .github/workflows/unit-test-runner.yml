@@ -47,18 +47,3 @@ jobs:
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/client_program.sql"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/billing.sql"
           psql -h localhost -U testuser -w -d testdb -f "./SQL/MockData/payments.sql"
-
-  cleanup:
-    runs-on: ubuntu-latest
-    needs: [run_unit_tests]
-    steps:
-      - name: Get container ID
-        id: get_container_id
-        run: |
-          CONTAINER_ID=$(docker ps -q --filter ancestor=postgres:latest)
-          echo "::set-output name=container_id::$CONTAINER_ID"
-      
-      - name: Cleanup PostgreSQL service
-        run: |
-          docker stop ${{ steps.get_container_id.outputs.container_id }}
-          docker rm ${{ steps.get_container_id.outputs.container_id }}
